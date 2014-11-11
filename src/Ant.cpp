@@ -3,39 +3,39 @@
 Ant::Ant(){}
 
 void Ant::setLAC(int lac){
-    LAC = lac;
+    this->LAC = lac;
 }
 
 void Ant::setCID(int cid){
-    CID = cid;
+    this->CID = cid;
 }
 void Ant::setRSSI(int rssi){
-    RSSI = rssi;
+    this->RSSI = rssi;
 }
 void Ant::setSignal(int sig){
-    Signal = sig;
+    this->Signal = sig;
 }
 void Ant::setAntH(int ah){
-    AntH = ah;
+    this->AntH = ah;
 }
 void Ant::setPower(int power){
-    Power = power;
+    this->Power = power;
 }
 int Ant::getLAC(){
-    return LAC;
+    return this->LAC;
 }
 int Ant::getCID(){
-    return CID;
+    return this->CID;
 }
 int Ant::getRSSI(){
-    return RSSI;
+    return this->RSSI;
 }
 int Ant::getSignal(){
-    return Signal;
+    return this->Signal;
 }
 int Ant::getAntH(){
-    return AntH;
+    return this->AntH;
 }
 int Ant::getPower(){
-    return Power;
+    return this->Power;
 }

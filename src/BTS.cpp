@@ -6,42 +6,42 @@ BTS::BTS(){
 
 
 int BTS::getBCH() {
-    return BCH;
+    return this->BCH;
 }
 
 int BTS::getCID() {
-    return CID;
+    return this->CID;
 }
 
 int BTS::getLAC() {
-    return LAC;
+    return this->LAC;
 }
 
 string BTS::getGPS() {
-    return GPS;
+    return this->GPS;
 
 }
 
 string BTS::getLocalization() {
-    return localization;
+    return this->localization;
 }
 
 void BTS::setBCH(int bch) {
-    BCH = bch;
+    this->BCH = bch;
 }
 
 void BTS::setCID(int cid) {
-    CID = cid;
+    this->CID = cid;
 }
 
 void BTS::setGPS(string gps) {
-    GPS = gps;
+    this->GPS = gps;
 }
 
 void BTS::setLAC(int lac) {
-    LAC = lac;
+    this->LAC = lac;
 }
 
 void BTS::setLocalization(string loc) {
-    localization = loc;
+    this->localization = loc;
 }

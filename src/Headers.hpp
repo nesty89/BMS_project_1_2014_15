@@ -79,6 +79,8 @@ public:
     vector<string> parseLine(string str);
     BTS getBTSFromVect(vector<string> v);
     Ant getAntFromVect(vector<string> v);
+    vector<Ant> filterSimilarAntPoint(vector<BTS> bts, vector<Ant> ant);
+    bool checkBtsNeeded(BTS bts, vector<Ant> ant);
     Parser();
 private:
     stringstream ss;
@@ -87,5 +89,18 @@ private:
 
 };
 
+class FileWriter{
+public:
+    FileWriter(string name);
+    void writeLine(string line, bool endl);
+    void writeLine(string line);
+    string prepareGPSLink(float gpsWidth, float gpsHeight);
+    string parseGPS(float gps);
+    void closeFile();
+private:
+    string fileName;
+    std::ofstream os;
+
+};
 
 #endif

@@ -7,13 +7,13 @@ FileReader::FileReader(string name){
     end = false;
     is.open(name.c_str(), std::ifstream::in);
     if(!is.is_open()){
-        std::cerr << "neotevreno" << std::endl;
+        std::cerr << "neotevreno " << fileName<< std::endl;
     }
 }
 
 string FileReader::GetLine() {
     string str;
-    if(!is.good() || !getline(is, str) ){
+    if(!end && !is.good() || !getline(is, str) ){
         end = true;
         return "";
     }
