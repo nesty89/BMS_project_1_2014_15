@@ -61,17 +61,27 @@ public:
     void setBCH(int bch);
     void setLocalization(string loc);
     void setGPS(string gps);
+    void setLatitude(float latitude);
+    void setLongtitude(float longtitude);
     int getCID();
     int getLAC();
     int getBCH();
     string getLocalization();
     string getGPS();
+    float getLatitude();
+    float getLongtitude();
+    float degreeToDec(string degree);
+    void computeLatitideAndLongtitude(string degrees);
+
 private:
     int CID;
     int LAC;
     int BCH;
     string localization;
     string GPS;
+    float latitude;
+    float longtitude;
+    float floatFromString(string s);
 };
 
 class Parser{

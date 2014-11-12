@@ -1,12 +1,14 @@
 #include "Headers.hpp"
 #include <cmath>
 
-
+#define ICONV 3
 using std::cout;
 using std::endl;
 
+
 //float Ch = 3.2 * (pow(log10(11.75 * MOBILE_ANTENA), 2.0)) - 4.97;
-    
+// latitude -- W -> E
+// longtitude -- N -> S     
 
 int main(int argc, char **argv){
     FileReader *btsFile  = new FileReader("bts.csv");
@@ -16,7 +18,9 @@ int main(int argc, char **argv){
     vector<BTS> btsVector;
     vector<Ant> anthVector;
     std::string s;
+    
     bool first = true;
+    
     while(!inputFile->isEnd()){
         s = inputFile->GetLine();
         if(!inputFile->isEnd() && !first){
@@ -26,12 +30,14 @@ int main(int argc, char **argv){
         first = false;
     } 
     inputFile->closeFile();
+    
     first = true;
     while(!btsFile->isEnd() ) {
         s = btsFile->GetLine();
         if (!btsFile->isEnd() && !first) {
             BTS bts = parser->getBTSFromVect(parser->parseLine(s));
             if(parser->checkBtsNeeded(bts, anthVector)){
+                bts.computeLatitideAndLongtitude(bts.getGPS()); 
                 btsVector.push_back(bts);
             }
         }
@@ -39,21 +45,14 @@ int main(int argc, char **argv){
     }
     btsFile->closeFile();
 
-    anthVector =  parser->filterSimilarAntPoint(btsVector, anthVector);
+    anthVector = parser->filterSimilarAntPoint(btsVector, anthVector);
   
     FileWriter *fw = new FileWriter("out.txt");
-    float gpsw =  123.123456;
+    float gpsw = 12.123456;
     float gpsh = gpsw;
-    fw->writeLine(fw->prepareGPSLink(gpsw, gpsh), false);
+    fw->writeLine(fw->prepareGPSLink(gpsw, gpsh), true);
     fw->closeFile();
     return 0;
 }
 
-// 49°13'33.97"N,16°35'35.64"E
-// 49°13'33.97"N,16°35'35.64"E
-// 49°13'33.97"N,16°35'35.64"E
-// 49°13'11.81"N,16°36'25.26"E
-// 49°13'42.18"N,16°34'53.07"E
-// 49°13'33.97"N,16°35'35.64"E
-// 49°13'11.81"N,16°36'25.26"E
         
