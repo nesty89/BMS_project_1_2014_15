@@ -6,7 +6,6 @@ using std::cout;
 using std::endl;
 
 
-//float Ch = 3.2 * (pow(log10(11.75 * MOBILE_ANTENA), 2.0)) - 4.97;
 // latitude -- W -> E
 // longtitude -- N -> S     
 
@@ -46,7 +45,21 @@ int main(int argc, char **argv){
     btsFile->closeFile();
 
     anthVector = parser->filterSimilarAntPoint(btsVector, anthVector);
+    btsVector = parser->filterUnusedBts(btsVector, anthVector);
   
+    for(int i = 0; i < anthVector.size(); i++){
+        for (int j = 0; j < btsVector.size(); j++){
+            if(anthVector[i].getCID() == btsVector[j].getCID()){
+                btsVector[j].computeDistance(anthVector[i]);
+            }
+        }
+    }
+
+    Computation *cp = new Computation();
+    cp->setAntVect(anthVector);
+    cp->setBtsVect(btsVector);
+    cp->compute();
+
     FileWriter *fw = new FileWriter("out.txt");
     float gpsw = 12.123456;
     float gpsh = gpsw;
@@ -54,5 +67,3 @@ int main(int argc, char **argv){
     fw->closeFile();
     return 0;
 }
-
-        

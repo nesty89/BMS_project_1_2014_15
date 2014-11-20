@@ -1,6 +1,8 @@
 #include "Headers.hpp"
+#include <cmath>
 using std::cout;
 using std::endl;
+
 BTS::BTS(){
 
 }
@@ -23,6 +25,10 @@ int BTS::getCID() {
 
 int BTS::getLAC() {
     return this->LAC;
+}
+
+float BTS::getDistance(){
+    return this->distance;
 }
 
 string BTS::getGPS() {
@@ -62,6 +68,9 @@ void BTS::setLongtitude(float longtitude){
     this->longtitude = longtitude;
 }
 
+void BTS::setDistance(float distance){
+    this->distance = distance;
+}
 
 float BTS::degreeToDec(string degree){
     stringstream ss(degree); 
@@ -104,8 +113,30 @@ void BTS::computeLatitideAndLongtitude(string degrees){
 }
 
 float BTS::floatFromString(string s){
+    if(s == ""){
+        return 0.0;
+    }
     stringstream ss(s);
     float x;
     ss >> x; 
     return x;
+}
+
+
+//L_u = 10*(log10(1000*power)) - signal
+
+float BTS::computeDistance(Ant ant) { 
+    float distance = 0.0;
+    float lu = 10.0 * log10(1000.0 * (float) ant.getPower()) - (float) ant.getSignal();
+    float ch = 3.2 * (pow(log10(11.75 * (float) MOBILE_ANTENA), 2.0)) - 4.97;
+    float rest = 69.55 + 26.16 * log10(FREQ) - 13.82 * log10((float) ant.getAntH());
+    distance = lu - rest + ch;
+    distance /= (44.9 - 6.55 * log10((float) ant.getAntH()));
+    distance = pow(10.0, distance);
+    setDistance(distance);
+    return distance;
+}
+
+void compute(){
+    
 }

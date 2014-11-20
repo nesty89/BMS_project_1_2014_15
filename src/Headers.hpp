@@ -63,15 +63,18 @@ public:
     void setGPS(string gps);
     void setLatitude(float latitude);
     void setLongtitude(float longtitude);
+    void setDistance(float distance);
     int getCID();
     int getLAC();
     int getBCH();
+    float getDistance();
     string getLocalization();
     string getGPS();
     float getLatitude();
     float getLongtitude();
     float degreeToDec(string degree);
     void computeLatitideAndLongtitude(string degrees);
+    float computeDistance(Ant ant);
 
 private:
     int CID;
@@ -81,7 +84,9 @@ private:
     string GPS;
     float latitude;
     float longtitude;
+    float distance;// km
     float floatFromString(string s);
+
 };
 
 class Parser{
@@ -91,6 +96,7 @@ public:
     Ant getAntFromVect(vector<string> v);
     vector<Ant> filterSimilarAntPoint(vector<BTS> bts, vector<Ant> ant);
     bool checkBtsNeeded(BTS bts, vector<Ant> ant);
+    vector<BTS> filterUnusedBts(vector<BTS> btsVect, vector<Ant> antVect);
     Parser();
 private:
     stringstream ss;
@@ -113,4 +119,23 @@ private:
 
 };
 
+class Computation{
+public:
+    Computation();
+    void setAntVect(vector<Ant> antVect);
+    void setBtsVect(vector<BTS> btsVect);
+    vector<BTS> getBtsVect();
+    vector<Ant> getAntVect();
+    float getCoordX();
+    float getCoordY();
+    void compute();
+private:
+    vector<BTS> btsVect;
+    vector<Ant> antVect;
+    float X;
+    float Y;
+    float computeMidDist(BTS A, BTS B);
+    float computeMPartDist(BTS A, BTS B);
+
+};
 #endif

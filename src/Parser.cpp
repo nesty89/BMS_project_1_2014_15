@@ -107,3 +107,13 @@ void Parser::clearStringStream(){
     ss.str("");
     ss.clear();
 }
+
+vector<BTS> Parser::filterUnusedBts(vector<BTS> btsVect, vector<Ant> antVect){
+    vector<BTS> out;
+    for(int i = 0; i < btsVect.size(); i++){
+        if(checkBtsNeeded(btsVect[i], antVect)){
+            out.push_back(btsVect[i]);
+        }
+    }
+    return out;
+}
