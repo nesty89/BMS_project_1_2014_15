@@ -108,8 +108,8 @@ void BTS::computeLatitideAndLongtitude(string degrees){
     while(getline(ss, s, ',')){
         strVec.push_back(s);
     }
-    this->setLongtitude(this->degreeToDec(strVec[0]));
-    this->setLatitude(this->degreeToDec(strVec[1]));
+    this->setLongtitude(this->degreeToDec(strVec[0]) /* * 1000.0*/);
+    this->setLatitude(this->degreeToDec(strVec[1]) /* * 1000.0*/);
 }
 
 float BTS::floatFromString(string s){
@@ -133,10 +133,8 @@ float BTS::computeDistance(Ant ant) {
     distance = lu - rest + ch;
     distance /= (44.9 - 6.55 * log10((float) ant.getAntH()));
     distance = pow(10.0, distance);
+    //distance *= 1000.0; // na m
     setDistance(distance);
     return distance;
 }
 
-void compute(){
-    
-}

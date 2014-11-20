@@ -46,7 +46,7 @@ int main(int argc, char **argv){
 
     anthVector = parser->filterSimilarAntPoint(btsVector, anthVector);
     btsVector = parser->filterUnusedBts(btsVector, anthVector);
-  
+    
     for(int i = 0; i < anthVector.size(); i++){
         for (int j = 0; j < btsVector.size(); j++){
             if(anthVector[i].getCID() == btsVector[j].getCID()){

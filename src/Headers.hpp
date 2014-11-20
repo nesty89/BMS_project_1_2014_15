@@ -4,10 +4,8 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
-
-using std::string;
-using std::vector;
-using std::stringstream;
+#include <cmath>
+using namespace std;
 
 // m
 #define MOBILE_ANTENA 1.2f
@@ -119,6 +117,29 @@ private:
 
 };
 
+class Dist{
+public:
+    Dist();
+    Dist(BTS A, BTS B);
+    Dist(BTS A, BTS B, float d);
+    BTS getBtsA();
+    BTS getBtsB();
+    float getDistance();
+    float getHeight();
+    void setDistance(float dist);
+    void setBtsA(BTS bts);
+    void setBtsB(BTS bts);
+    void setHeight(float h);
+    float computeDist(BTS A, BTS B);
+    float computeHeight(Dist dist);
+
+private:
+    BTS A;
+    BTS B;
+    float distance;
+    float height;
+};
+
 class Computation{
 public:
     Computation();
@@ -134,8 +155,6 @@ private:
     vector<Ant> antVect;
     float X;
     float Y;
-    float computeMidDist(BTS A, BTS B);
-    float computeMPartDist(BTS A, BTS B);
-
+    vector<Dist> computeAllDist(vector<BTS> btsVect);
 };
 #endif

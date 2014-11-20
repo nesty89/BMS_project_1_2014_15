@@ -30,27 +30,35 @@ float Computation::getCoordY(){
 	return Y;
 }
 
-float Computation::computeMidDist( BTS A, BTS B){
-	return sqrt(pow((A.getLatitude() - B.getLatitude()),2.0) + pow((A.getLongtitude() - B.getLongtitude()), 2.0));
-}
 
-float Computation::computeMPartDist(BTS A, BTS B) {
-	float dist = computeMidDist(A, B); 
-	return dist;
+
+
+vector<Dist> Computation::computeAllDist(vector<BTS> btsVect){
+	vector<Dist> distVect;
+	for(int i = 0; i < btsVect.size(); i++){
+		for(int j = i; j < btsVect.size(); j++){
+			if(btsVect[i].getCID() != btsVect[j].getCID()){
+				Dist d(btsVect[i], btsVect[j]);
+				if (d.getDistance() > 0.0){ // mozna lepsi podminku *1000   > 0.000001 nebo tak neco
+					d.setHeight(d.computeHeight(d));
+					cout << d.getHeight() << endl;
+					distVect.push_back(d); 
+				}
+			}
+		}
+	}
+	return distVect;
 }
 
 void Computation::compute(){
-	float midDist = 0.0;
-	float mpart = 0.0;
-    for(int i = 0; i < btsVect.size(); i++){
-    	for(int j = i; j < btsVect.size(); j++){
-    		if(btsVect[i].getCID() == btsVect[j].getCID()){
-    			continue;
-    		}
-    	//	cout << btsVect[i].getCID() << " " << btsVect[j].getCID() << endl;
-    	//	cout << computeMidDist(btsVect[i], btsVect[j]) << endl;
-    		mpart = computeMPartDist(btsVect[i], btsVect[j]);// mozna presunout vypocet midDist do comupteMPartDist
-    		
+	vector<Dist> distVect;
+	distVect = computeAllDist(btsVect); 
+
+	
+	//for (int i = 0; i < distVect.size(); i++ ){
+	//	cout << distVect[i].getDistance() << endl;
+	//}
+
     		//  C
     		//  | \
     		//  |  \
@@ -69,6 +77,5 @@ void Computation::compute(){
     		// Sy = Ay + (m / d) * (By - Ay)
     		// Cx1,2 = Sx +- (v / d) (Ay - By)
     		// Cy1,2 = Sy +- (v / d) (Ax - Bx)
-    	}
-    }
+    	
 }

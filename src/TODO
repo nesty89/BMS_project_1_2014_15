@@ -1,6 +1,4 @@
-gps naparsovano a prepocitano do float hodnot
----------------------------------------------
 #TODO - LIST
-
-vypocet triangulace/trilaterace - jak z ceho ...
-prepocty signalu v antene...
+spocitat si uhly pro detekci o jaky trojuhelnik se jedna
+pro tupe trojuhelniky udelat posun do bodu A nebo B a na zakladne podobnosti a pomeru dopocitat
+dodelat shlukovani
