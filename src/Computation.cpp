@@ -62,77 +62,8 @@ vector<Point> computeAllMobileLocations(vector<Dist> distVect){
 }
 
 Point Computation::findMobileLoc(std::vector<Point> vp){
-	vector<PointPair> pairs;
-	int position;
-	vector<Point> points;
-	bool fa = false, fb = false;
-	float min = INFINITY;
-	float max = 0;
-	for(int i = 0; i < vp.size(); i++){
-		for(int j = i; j < vp.size(); j++){
-			if ( i != j){
-				PointPair pp (vp[i], vp[j]);
-				pairs.push_back(pp);
-			}
-
-		}
-	}
-	vector<vector<Point> > clusters;
-	for (int i = 0; i < vp.size(); i++){
-		vector<Point> v;
-		v.push_back(vp[i]);
-		clusters.push_back(v);
-	}
-	bool end = false;
-	int cid;
-	int Ap,Bp;
-	while(!end){
-		min = INFINITY;
-
-		for ( int i = 0; i < pairs.size(); i++){
-			if(pairs[i].getDistance() <= min ){
-				min = pairs[i].getDistance();
-				position = i;
-			}
-		}	
-
-		for(int i = 0; i < clusters.size(); i++){
-			for(int j = 0; j < clusters[i].size(); j++){
-				if(pairs[position].getPointA().compare(pairs[position].getPointA(), clusters[i][j])){
-					Ap = i;
-				}
-				if(pairs[position].getPointB().compare(pairs[position].getPointB(), clusters[i][j])){
-					Bp = i;
-				}
-			}
-		}
-		if(Ap != Bp){
-			for(int i = 0; i < clusters[Bp].size(); i++){
-				clusters[Ap].push_back(clusters[Bp][i]);
-			}
-			clusters.erase(clusters.begin() + Bp);
-		} 
-		pairs.erase(pairs.begin() + position);
-
-		for(int i = 0; i < clusters.size(); i++){
-			if(clusters[i].size() >= vp.size()/2){
-				cid = i;
-				end = true;
-			}
-		}
-	}
-
+	
 	float sumX = 0.0, sumY = 0.0;
-	for ( int i = 0; i <  clusters[cid].size(); i++){
-		sumX += clusters[cid][i].getX();
-		sumY += clusters[cid][i].getY();
-	}
-	
-	sumX = sumX / (float) clusters[cid].size();
-	sumY = sumY / (float) clusters[cid].size();
-	
-	sumX = 0.0;
-	sumY = 0.0;
 	for (int i = 0; i < vp.size(); i++){
 		sumX += vp[i].getX();
 		sumY += vp[i].getY();  
