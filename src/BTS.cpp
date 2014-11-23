@@ -1,7 +1,6 @@
 #include "Headers.hpp"
 #include <cmath>
-using std::cout;
-using std::endl;
+#include "UTM.h"
 
 BTS::BTS(){
 
@@ -38,6 +37,14 @@ string BTS::getGPS() {
 
 string BTS::getLocalization() {
     return this->localization;
+}
+
+string BTS::getULocation(){
+    return this->uLoc;
+}
+
+void BTS::setULocation(string loc){
+    this->uLoc = loc;
 }
 
 void BTS::setBCH(int bch) {
@@ -105,11 +112,16 @@ void BTS::computeLatitideAndLongtitude(string degrees){
     stringstream ss(degrees);
     vector<string> strVec;
     string s;
+    double lat, longt;
+    char *s2;
     while(getline(ss, s, ',')){
         strVec.push_back(s);
     }
-    this->setLongtitude(this->degreeToDec(strVec[0]) /* * 1000.0*/);
-    this->setLatitude(this->degreeToDec(strVec[1]) /* * 1000.0*/);
+    UTM::LLtoUTM((double) this->degreeToDec(strVec[0]), (double) this->degreeToDec(strVec[1]), lat, longt, s2);
+    uLoc = s2;
+
+    this->setLatitude((float) lat);
+    this->setLongtitude((float) longt);
 }
 
 float BTS::floatFromString(string s){
@@ -133,7 +145,6 @@ float BTS::computeDistance(Ant ant) {
     distance = lu - rest + ch;
     distance /= (44.9 - 6.55 * log10((float) ant.getAntH()));
     distance = pow(10.0, distance);
-    //distance *= 1000.0; // na m
     setDistance(distance);
     return distance;
 }

@@ -12,6 +12,7 @@ using namespace std;
 // MHz
 #define FREQ 900
 
+
 class FileReader {
 public:
     FileReader(string name);
@@ -73,7 +74,8 @@ public:
     float degreeToDec(string degree);
     void computeLatitideAndLongtitude(string degrees);
     float computeDistance(Ant ant);
-
+    void setULocation(string loc);
+    string getULocation();
 private:
     int CID;
     int LAC;
@@ -84,7 +86,7 @@ private:
     float longtitude;
     float distance;// km
     float floatFromString(string s);
-
+    string uLoc;
 };
 
 class Parser{
@@ -116,7 +118,34 @@ private:
     std::ofstream os;
 
 };
+class Point{
+public:
+    Point();
+    Point(float x, float y);
+    float getX();
+    float getY();
+    void setX(float x);
+    void setY(float y);
+    bool compare(Point A, Point B);
+private:
+    float x;
+    float y;
+};
 
+class PointPair{
+public:
+    PointPair(Point A, Point B);
+    PointPair(Point A, Point B, int id);
+    float distance(Point A, Point B);
+    Point getPointA();
+    Point getPointB();
+    float getDistance();
+    int id;
+private:
+    Point A;
+    Point B;
+    float d;
+};
 class Dist{
 public:
     Dist();
@@ -126,18 +155,22 @@ public:
     BTS getBtsB();
     float getDistance();
     float getHeight();
+    float getM();
     void setDistance(float dist);
     void setBtsA(BTS bts);
     void setBtsB(BTS bts);
     void setHeight(float h);
+    void setM(float m);
+    float computeC();
     float computeDist(BTS A, BTS B);
+    float computeMid(float Ar, float Br);
     float computeHeight(Dist dist);
-
 private:
     BTS A;
     BTS B;
     float distance;
     float height;
+    float m;
 };
 
 class Computation{
@@ -147,14 +180,11 @@ public:
     void setBtsVect(vector<BTS> btsVect);
     vector<BTS> getBtsVect();
     vector<Ant> getAntVect();
-    float getCoordX();
-    float getCoordY();
-    void compute();
+    Point compute();
+    Point findMobileLoc(std::vector<Point> vp);
 private:
     vector<BTS> btsVect;
     vector<Ant> antVect;
-    float X;
-    float Y;
     vector<Dist> computeAllDist(vector<BTS> btsVect);
 };
 #endif

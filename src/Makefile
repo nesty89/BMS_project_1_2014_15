@@ -1,7 +1,7 @@
 NAME=p1
 COMPILER=g++
 
-FILES=FileWriter.o FileReader.o Ant.o BTS.o Parser.o Dist.o Computation.o main.o
+FILES=FileWriter.o FileReader.o Ant.o BTS.o Parser.o Point.o Dist.o Computation.o main.o
 
 ALL: $(FILES)
 	$(COMPILER) -Wall -std=c++11 -o $(NAME) $(FILES)

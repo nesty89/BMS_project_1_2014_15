@@ -1,17 +1,18 @@
 #include "Headers.hpp"
+
 Dist::Dist(){}
 Dist::Dist(BTS A, BTS B){
 	this->A = A;
 	this->B = B;
-	this->distance = computeMidDist(A, B);
-	this->computeHeight(*this);
+	this->distance = computeDist(B, A);
+//	this->computeHeight(*this);
 }
 
 Dist::Dist(BTS A, BTS B, float d){
 	this->A = A;
 	this->B = B;
 	this->distance = d;
-	this->height = computeHeight(*this);
+	//this->height = computeHeight(*this);
 }
 
 BTS Dist::getBtsA(){
@@ -46,24 +47,34 @@ void Dist::setHeight(float h){
 	this->height = h;
 }
 
-float Dist::computeDist(BTS A, BTS B){
-	return sqrt(pow((A.getLatitude() - B.getLatitude()), 2.0) + pow((A.getLongtitude() - B.getLongtitude()), 2.0));
+void Dist::setM(float m){
+	this->m = m;
+}
+
+float Dist::getM(){
+	return this->m;
 }
 
 
-// vypocitava to pro rovnostrany 
+
+float Dist::computeC(){
+	return 0.0;
+}
+
+float Dist::computeDist(BTS A, BTS B){
+	return sqrt(pow(A.getDistance(), 2.0) + pow(B.getDistance(),2.0));
+}
+
 
 // m = (Ar^2 - Br^2) / 2d + d / 2
+float Dist::computeMid(float Ar, float Br){
+	
+	return (pow(Ar, 2.0) - pow(Br, 2.0)) / (2.0 * distance) + distance / 2.0;
+}
+
 // v = sqrt(Ar^2 - m^2)    		
 float Dist::computeHeight(Dist dist){
-	float d = dist.getDistance();
-	cout << "D:  " << d << endl;
 	float Ar = dist.getBtsA().getDistance();
-	cout << "Ar: " << Ar << endl;
-	cout << "Br: " << dist.getBtsB().getDistance() << endl;
-	float m = (pow(Ar, 2.0) - pow(dist.getBtsB().getDistance(), 2.0)) / (2.0 * d) + d / 2.0;
-	cout << "M:  " << m << endl;
-	cout << "V:  " << sqrt(pow(Ar, 2.0) - pow(m, 2.0)) << endl;
-	
+	float m = dist.computeMid(Ar, dist.getBtsB().getDistance());	
 	return sqrt(pow(Ar, 2.0) - pow(m, 2.0));
 }

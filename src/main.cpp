@@ -1,10 +1,7 @@
 #include "Headers.hpp"
 #include <cmath>
 
-#define ICONV 3
-using std::cout;
-using std::endl;
-
+#include "UTM.h"
 
 // latitude -- W -> E
 // longtitude -- N -> S     
@@ -58,12 +55,13 @@ int main(int argc, char **argv){
     Computation *cp = new Computation();
     cp->setAntVect(anthVector);
     cp->setBtsVect(btsVector);
-    cp->compute();
+    Point mobile = cp->compute();
+    double x, y;
+    UTM::UTMtoLL((double) mobile.getX(), (double) mobile.getY(), "33U", x, y);
 
     FileWriter *fw = new FileWriter("out.txt");
-    float gpsw = 12.123456;
-    float gpsh = gpsw;
-    fw->writeLine(fw->prepareGPSLink(gpsw, gpsh), true);
+
+    fw->writeLine(fw->prepareGPSLink((float) x, (float) y), true);
     fw->closeFile();
     return 0;
 }
